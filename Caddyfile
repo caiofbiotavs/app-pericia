@@ -15,4 +15,9 @@
     }
 
     header @assets Cache-Control "public, max-age=604800"
+
+    handle_path /deploy {
+        rewrite * /hooks/deploy-app
+        reverse_proxy webhook:9000
+    }
 }
