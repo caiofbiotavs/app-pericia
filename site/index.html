@@ -1,5 +1,37 @@
-<!-- deploy ok -->
-<!-- FINAL DEPLOY OK -->
-<!-- DEPLOY REALMENTE OK -->
-<!-- DEPLOY 100% OK -->
-<!-- DEPLOY 100% OK -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>App Perícia — cadeia local</title>
+  <link rel="stylesheet" href="css/pericia.css" />
+</head>
+<body>
+  <header>
+    <h1>App Perícia (demo)</h1>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="dashboard/dashboard.html">Dashboard</a>
+      <a href="validacao/index.html">Validação</a>
+      <a href="painel_admin/admin.html">Admin</a>
+    </nav>
+  </header>
+  <main>
+    <section class="card">
+      <h2>Fluxo de dados (blockchain local)</h2>
+      <p>
+        A cadeia vive no <strong>localStorage</strong> do navegador. Cada bloco referencia o hash do
+        anterior; o conteúdo é resumido com <strong>SHA-256</strong> (Web Crypto). O ficheiro
+        <code>blockchain.json</code> no servidor é apenas <strong>seed</strong> quando não há dados
+        locais ainda.
+      </p>
+      <ul style="color:var(--muted);font-size:0.95rem">
+        <li><strong>Dashboard:</strong> carrega ou inicia a cadeia e acrescenta registos.</li>
+        <li><strong>Validação:</strong> verifica elos e hashes na memória local ou num ficheiro exportado.</li>
+        <li><strong>Admin:</strong> login contra <code>users.json</code>; importar/substituir ou limpar a cadeia.</li>
+      </ul>
+    </section>
+  </main>
+  <footer>Site estático + Caddy · sem API de escrita no servidor</footer>
+</body>
+</html>

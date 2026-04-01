@@ -1,1 +1,145 @@
-<html><body>Painel Admin Placeholder - Full system delivered in final phase.</body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin — Perícia</title>
+  <link rel="stylesheet" href="../css/pericia.css" />
+</head>
+<body>
+  <header>
+    <h1>Painel admin (demo)</h1>
+    <nav>
+      <a href="../index.html">Início</a>
+      <a href="../dashboard/dashboard.html">Dashboard</a>
+      <a href="../validacao/index.html">Validação</a>
+      <a href="admin.html">Admin</a>
+    </nav>
+  </header>
+  <main>
+    <p class="card" style="margin-top:0;color:var(--muted);font-size:0.9rem">
+      Autenticação apenas no cliente (hash SHA-256 comparado a
+      <code>users.json</code>). Não use como modelo de segurança em produção.
+    </p>
+    <div id="flash"></div>
+    <section id="panel-login" class="card">
+      <h2>Entrar</h2>
+      <form id="form-login">
+        <label for="user">Usuário</label>
+        <input id="user" name="user" type="text" required autocomplete="username" />
+        <label for="pass">Senha</label>
+        <input id="pass" name="pass" type="password" required autocomplete="current-password" />
+        <button type="submit">Login</button>
+      </form>
+    </section>
+    <section id="panel-app" class="card" hidden>
+      <h2>Operações na cadeia local</h2>
+      <p style="color:var(--muted);font-size:0.9rem;margin-top:0">
+        Blocos atuais: <strong id="count">0</strong>
+      </p>
+      <div class="row">
+        <button type="button" id="btn-logout" class="secondary">Sair</button>
+        <a href="../dashboard/dashboard.html"><button type="button" class="secondary">Abrir dashboard</button></a>
+      </div>
+      <hr style="border:0;border-top:1px solid var(--border);margin:1rem 0" />
+      <label for="import-json">Substituir cadeia por JSON exportado</label>
+      <input id="import-json" type="file" accept=".json,application/json" />
+      <button type="button" id="btn-import">Importar e gravar no navegador</button>
+      <button type="button" id="btn-clear" class="danger">Apagar cadeia local</button>
+    </section>
+  </main>
+  <footer>Sessão em sessionStorage</footer>
+  <script src="../js/chain.js"></script>
+  <script src="../js/auth.js"></script>
+  <script>
+    (function () {
+      var USERS_URL = 'users.json';
+
+      function flash(ok, text) {
+        var el = document.getElementById('flash');
+        el.innerHTML = text
+          ? '<div class="msg ' + (ok ? 'ok' : 'err') + '">' + text + '</div>'
+          : '';
+      }
+
+      function updateCount() {
+        var c = window.PericiaChain.LocalChain.loadFromStorage();
+        document.getElementById('count').textContent = c ? c.blocks.length : 0;
+      }
+
+      function showLoggedIn(show) {
+        document.getElementById('panel-login').hidden = show;
+        document.getElementById('panel-app').hidden = !show;
+        if (show) updateCount();
+      }
+
+      if (window.PericiaAuth.isLoggedIn()) {
+        showLoggedIn(true);
+      }
+
+      document.getElementById('form-login').addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        flash(false, '');
+        var u = document.getElementById('user').value.trim();
+        var p = document.getElementById('pass').value;
+        window.PericiaAuth.login(u, p, USERS_URL).then(function (ok) {
+          if (ok) {
+            flash(true, 'Sessão iniciada.');
+            showLoggedIn(true);
+            ev.target.reset();
+          } else {
+            flash(false, 'Usuário ou senha inválidos.');
+          }
+        }).catch(function (e) {
+          flash(false, e.message || String(e));
+        });
+      });
+
+      document.getElementById('btn-logout').addEventListener('click', function () {
+        window.PericiaAuth.logout();
+        showLoggedIn(false);
+        flash(true, 'Sessão encerrada.');
+      });
+
+      document.getElementById('btn-import').addEventListener('click', function () {
+        if (!window.PericiaAuth.isLoggedIn()) return;
+        var input = document.getElementById('import-json');
+        var f = input.files && input.files[0];
+        if (!f) {
+          flash(false, 'Selecione um arquivo JSON.');
+          return;
+        }
+        var reader = new FileReader();
+        reader.onload = function () {
+          try {
+            var tmp = window.PericiaChain.LocalChain.fromJsonString(reader.result);
+            tmp.validate().then(function (v) {
+              if (!v.ok) {
+                flash(false, 'JSON rejeitado (cadeia inválida): ' + (v.errors && v.errors.join('; ')));
+                return;
+              }
+              var live = window.PericiaChain.LocalChain.loadFromStorage();
+              if (!live) live = new window.PericiaChain.LocalChain([]);
+              live.blocks = tmp.blocks;
+              live.save();
+              flash(true, 'Cadeia importada com sucesso.');
+              updateCount();
+            });
+          } catch (e) {
+            flash(false, String(e.message || e));
+          }
+        };
+        reader.readAsText(f, 'UTF-8');
+      });
+
+      document.getElementById('btn-clear').addEventListener('click', function () {
+        if (!window.PericiaAuth.isLoggedIn()) return;
+        if (!confirm('Apagar toda a cadeia deste navegador?')) return;
+        window.PericiaChain.LocalChain.clearStorage();
+        flash(true, 'localStorage limpo. Recarregue o Dashboard para criar nova gênese.');
+        updateCount();
+      });
+    })();
+  </script>
+</body>
+</html>

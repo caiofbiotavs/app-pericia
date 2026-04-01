@@ -1,1 +1,99 @@
-<html><body>Validação Placeholder - Final system version will include full interface.</body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Validação da cadeia — Perícia</title>
+  <link rel="stylesheet" href="../css/pericia.css" />
+</head>
+<body>
+  <header>
+    <h1>Validação de integridade</h1>
+    <nav>
+      <a href="../index.html">Início</a>
+      <a href="../dashboard/dashboard.html">Dashboard</a>
+      <a href="index.html">Validação</a>
+      <a href="../painel_admin/admin.html">Admin</a>
+    </nav>
+  </header>
+  <main>
+    <p class="card" style="margin-top:0;color:var(--muted);font-size:0.9rem">
+      Recalcula cada hash e verifica elos <code>previousHash</code>. Alterar manualmente o
+      <code>localStorage</code> quebra a cadeia.
+    </p>
+    <div id="flash"></div>
+    <section class="card">
+      <h2>Cadeia no navegador</h2>
+      <div class="row">
+        <button type="button" id="btn-validate">Validar armazenamento local</button>
+      </div>
+      <pre id="result-local" class="chain">—</pre>
+    </section>
+    <section class="card">
+      <h2>Arquivo JSON (exportado ou seed)</h2>
+      <label for="file-json">Carregar <code>.json</code> com formato <code>{ "chain": [...] }</code></label>
+      <input id="file-json" type="file" accept=".json,application/json" />
+      <button type="button" id="btn-validate-file" class="secondary">Validar arquivo</button>
+      <pre id="result-file" class="chain">—</pre>
+    </section>
+  </main>
+  <footer>Validação 100% no cliente · Web Crypto (SHA-256)</footer>
+  <script src="../js/chain.js"></script>
+  <script>
+    (function () {
+      function flash(id, ok, text) {
+        var el = document.getElementById(id);
+        el.innerHTML = text
+          ? '<div class="msg ' + (ok ? 'ok' : 'err') + '">' + text + '</div>'
+          : '';
+      }
+
+      function showResult(preId, v) {
+        var pre = document.getElementById(preId);
+        var lines = v.ok
+          ? ['✓ Cadeia íntegra.', 'Blocos: ' + (v.blocksCount || 0)]
+          : ['✗ Problemas encontrados:'].concat(v.errors || []);
+        pre.textContent = lines.join('\n');
+      }
+
+      document.getElementById('btn-validate').addEventListener('click', function () {
+        flash('flash', false, '');
+        var c = window.PericiaChain.LocalChain.loadFromStorage();
+        if (!c || !c.blocks.length) {
+          showResult('result-local', { ok: false, errors: ['Nada no localStorage (acesse o Dashboard primeiro).'] });
+          return;
+        }
+        c.validate().then(function (v) {
+          v.blocksCount = c.blocks.length;
+          showResult('result-local', v);
+          flash('flash', v.ok, v.ok ? 'Validação concluída.' : 'Falha na validação.');
+        });
+      });
+
+      document.getElementById('btn-validate-file').addEventListener('click', function () {
+        flash('flash', false, '');
+        var input = document.getElementById('file-json');
+        var f = input.files && input.files[0];
+        if (!f) {
+          showResult('result-file', { ok: false, errors: ['Escolha um arquivo.'] });
+          return;
+        }
+        var reader = new FileReader();
+        reader.onload = function () {
+          try {
+            var tmp = window.PericiaChain.LocalChain.fromJsonString(reader.result);
+            tmp.validate().then(function (v) {
+              v.blocksCount = tmp.blocks.length;
+              showResult('result-file', v);
+              flash('flash', v.ok, v.ok ? 'Arquivo íntegro.' : 'Arquivo adulterado ou inválido.');
+            });
+          } catch (e) {
+            showResult('result-file', { ok: false, errors: [String(e.message || e)] });
+          }
+        };
+        reader.readAsText(f, 'UTF-8');
+      });
+    })();
+  </script>
+</body>
+</html>

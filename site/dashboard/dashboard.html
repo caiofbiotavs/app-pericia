@@ -1,1 +1,116 @@
-<html><body>Dashboard Placeholder - Final version generated.</body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard — Perícia (cadeia local)</title>
+  <link rel="stylesheet" href="../css/pericia.css" />
+</head>
+<body>
+  <header>
+    <h1>Dashboard — registro na cadeia local</h1>
+    <nav>
+      <a href="../index.html">Início</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="../validacao/index.html">Validação</a>
+      <a href="../painel_admin/admin.html">Admin</a>
+    </nav>
+  </header>
+  <main>
+    <p class="card" style="margin-top:0;color:var(--muted);font-size:0.9rem">
+      Os blocos ficam apenas no <strong>localStorage</strong> deste navegador. Use exportar para
+      guardar <code>blockchain.json</code> e validar em outra máquina ou após importação.
+    </p>
+    <div id="flash"></div>
+    <section class="card">
+      <h2>Novo registro (metadado de evidência)</h2>
+      <form id="form-registro">
+        <label for="ref">Referência / protocolo</label>
+        <input id="ref" name="ref" type="text" required placeholder="Ex.: PROC-2026-001" />
+        <label for="desc">Descrição resumida</label>
+        <textarea id="desc" name="desc" required placeholder="O que está sendo registrado"></textarea>
+        <label for="hash-arq">Hash do artefato (opcional, SHA-256 hex)</label>
+        <input id="hash-arq" name="hashArq" type="text" placeholder="64 caracteres hex (opcional)" />
+        <button type="submit">Incluir bloco</button>
+      </form>
+    </section>
+    <section class="card">
+      <h2>Cadeia atual</h2>
+      <div class="row">
+        <button type="button" id="btn-export" class="secondary">Exportar JSON</button>
+        <button type="button" id="btn-refresh" class="secondary">Atualizar lista</button>
+      </div>
+      <pre id="chain-view" class="chain">Carregando…</pre>
+    </section>
+  </main>
+  <footer>Blocos encadeados com SHA-256 · sem servidor de aplicação</footer>
+  <script src="../js/chain.js"></script>
+  <script>
+    (function () {
+      var SEED = '../blockchain.json';
+      var chain;
+
+      function flash(ok, text) {
+        var el = document.getElementById('flash');
+        el.innerHTML = text
+          ? '<div class="msg ' + (ok ? 'ok' : 'err') + '">' + text + '</div>'
+          : '';
+      }
+
+      function render() {
+        var pre = document.getElementById('chain-view');
+        if (!chain) {
+          pre.textContent = '(recarregue a página para recriar a cadeia)';
+          return;
+        }
+        if (!chain.blocks.length) {
+          pre.textContent = '(vazio)';
+          return;
+        }
+        pre.textContent = JSON.stringify(chain.blocks, null, 2);
+      }
+
+      window.PericiaChain.LocalChain.createOrLoad(SEED).then(function (c) {
+        chain = c;
+        render();
+      }).catch(function (e) {
+        document.getElementById('chain-view').textContent = 'Erro: ' + (e.message || e);
+      });
+
+      document.getElementById('form-registro').addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        flash(false, '');
+        var ref = document.getElementById('ref').value.trim();
+        var desc = document.getElementById('desc').value.trim();
+        var hashArq = document.getElementById('hash-arq').value.trim();
+        var data = { tipo: 'registro', referencia: ref, descricao: desc };
+        if (hashArq) data.hashArtefato = hashArq;
+        chain.addBlock(data).then(function () {
+          flash(true, 'Bloco ' + (chain.blocks.length - 1) + ' adicionado.');
+          render();
+          ev.target.reset();
+        }).catch(function (e) {
+          flash(false, e.message || String(e));
+        });
+      });
+
+      document.getElementById('btn-export').addEventListener('click', function () {
+        if (!chain) return;
+        var blob = new Blob([chain.exportJson()], { type: 'application/json' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'blockchain-export.json';
+        a.click();
+        URL.revokeObjectURL(a.href);
+        flash(true, 'Download iniciado.');
+      });
+
+      document.getElementById('btn-refresh').addEventListener('click', function () {
+        chain = window.PericiaChain.LocalChain.loadFromStorage();
+        render();
+        flash(!!chain, chain ? 'Recarregado do armazenamento local.' : 'Nada no armazenamento.');
+      });
+    })();
+  </script>
+</body>
+</html>
