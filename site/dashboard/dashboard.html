@@ -35,11 +35,19 @@
       </form>
     </section>
     <section class="card">
+      <h2>Gerador de hash de artefato</h2>
+      <label for="file-hash">Arquivo</label>
+      <input id="file-hash" type="file" />
+      <button type="button" id="btn-hash-file" class="secondary">Calcular SHA-256</button>
+      <pre id="hash-result" class="chain">Nenhum hash calculado.</pre>
+    </section>
+    <section class="card">
       <h2>Cadeia atual</h2>
       <div class="row">
         <button type="button" id="btn-export" class="secondary">Exportar JSON</button>
         <button type="button" id="btn-refresh" class="secondary">Atualizar lista</button>
       </div>
+      <div id="block-list" class="block-list">Carregando…</div>
       <pre id="chain-view" class="chain">Carregando…</pre>
     </section>
   </main>
@@ -57,17 +65,44 @@
           : '';
       }
 
+      function renderList() {
+        var list = document.getElementById('block-list');
+        if (!chain) {
+          list.textContent = '(recarregue a página para recriar a cadeia)';
+          return;
+        }
+        if (!chain.blocks.length) {
+          list.textContent = '(vazio)';
+          return;
+        }
+        list.innerHTML = chain.blocks
+          .map(function (b) {
+            var title = 'Bloco ' + b.index + ' • ' + (b.data.referencia || b.data.tipo || 'sem referência');
+            var time = new Date(b.timestamp).toLocaleString();
+            return (
+              '<details>' +
+              '<summary>' + title + ' — ' + time + '</summary>' +
+              '<pre>' + JSON.stringify(b, null, 2) + '</pre>' +
+              '</details>'
+            );
+          })
+          .join('');
+      }
+
       function render() {
         var pre = document.getElementById('chain-view');
         if (!chain) {
           pre.textContent = '(recarregue a página para recriar a cadeia)';
+          renderList();
           return;
         }
         if (!chain.blocks.length) {
           pre.textContent = '(vazio)';
+          renderList();
           return;
         }
         pre.textContent = JSON.stringify(chain.blocks, null, 2);
+        renderList();
       }
 
       window.PericiaChain.LocalChain.createOrLoad(SEED).then(function (c) {
@@ -75,6 +110,28 @@
         render();
       }).catch(function (e) {
         document.getElementById('chain-view').textContent = 'Erro: ' + (e.message || e);
+      });
+
+      document.getElementById('btn-hash-file').addEventListener('click', function () {
+        flash(false, '');
+        var input = document.getElementById('file-hash');
+        var file = input.files && input.files[0];
+        var output = document.getElementById('hash-result');
+        if (!file) {
+          output.textContent = 'Selecione um arquivo para calcular o hash.';
+          return;
+        }
+        var reader = new FileReader();
+        reader.onload = function () {
+          window.PericiaChain.sha256hexBuffer(reader.result).then(function (hash) {
+            output.textContent = hash;
+            flash(true, 'Hash calculado.');
+          }).catch(function (err) {
+            output.textContent = 'Erro ao calcular hash.';
+            flash(false, err.message || String(err));
+          });
+        };
+        reader.readAsArrayBuffer(file);
       });
 
       document.getElementById('form-registro').addEventListener('submit', function (ev) {

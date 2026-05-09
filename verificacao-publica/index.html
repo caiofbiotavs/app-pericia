@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Verificação Pública de Integridade · IPFS</title>
+  <meta name="description" content="Verificação pública de integridade por hash e CID (IPFS)" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    :root {
+      --bg-main: #f6f7f9;
+      --bg-card: rgba(255, 255, 255, 0.85);
+      --border-soft: rgba(11, 45, 77, 0.15);
+      --text-main: #071e33;
+      --text-muted: #6b7280;
+      --accent: #0b2d4d;
+      --ok: #0a7a0a;
+      --warn: #b45309;
+      --err: #b91c1c;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(900px 500px at 10% -10%, rgba(31,79,122,0.08), transparent),
+        var(--bg-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      color: var(--text-main);
+      line-height: 1.65;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 56px 24px 88px;
+    }
+
+    header {
+      margin-bottom: 48px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.2rem;
+      font-weight: 600;
+    }
+
+    header h2 {
+      margin-top: 6px;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+
+    section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: 14px;
+      padding: 28px 32px;
+      margin-bottom: 28px;
+    }
+
+    section h3 {
+      margin-top: 0;
+      margin-bottom: 14px;
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: var(--accent);
+      border-left: 4px solid var(--accent);
+      padding-left: 12px;
+    }
+
+    label {
+      display: block;
+      margin-top: 14px;
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      font-family: monospace;
+    }
+
+    .hint {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    button {
+      margin-top: 16px;
+      padding: 10px 14px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      margin-right: 8px;
+    }
+
+    .result {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 8px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      background: #fff;
+      border: 1px solid var(--border-soft);
+    }
+
+    .ok { color: var(--ok); }
+    .warn { color: var(--warn); }
+    .err { color: var(--err); }
+
+    footer {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-soft);
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    @media print {
+      button { display: none; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <header>
+      <h1>Verificação Pública de Integridade</h1>
+      <h2>Comparação de hashes criptográficos · IPFS</h2>
+    </header>
+
+    <section>
+      <h3>Passo a passo de validação</h3>
+	 
+      <ol>
+        <li>Calcule os hashes do arquivo original em sua máquina.</li>
+        <li>Informe o CID IPFS da âncora de integridade.</li>
+        <li>Informe os hashes calculados.</li>
+        <li>Execute a comparação automática.</li>
+        <li>Imprima ou salve o resultado da validação.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h3>Dados para verificação</h3>
+
+       <div class="hint">A comparação de hashes é realizada de forma case-insensitive, uma vez que a representação hexadecimal não possui distinção semântica entre letras maiúsculas e minúsculas.</div>
+	  
+	  <label>CID IPFS da Âncora</label>
+      <input id="cid" placeholder="bafy..." />
+      <div class="hint">CID onde está publicado o arquivo ancora-integridade.txt</div>
+
+      <label>SHA-256 (primário)</label>
+      <input id="sha256" placeholder="64 caracteres hexadecimais" />
+      <div class="hint">Hash SHA-256 calculado localmente</div>
+
+      <label>SHA-1 (auxiliar)</label>
+      <input id="sha1" placeholder="40 caracteres hexadecimais" />
+      <div class="hint">Hash SHA-1 calculado localmente</div>
+
+      <label>MD5 (auxiliar)</label>
+      <input id="md5" placeholder="32 caracteres hexadecimais" />
+      <div class="hint">Hash MD5 calculado localmente</div>
+
+      <button onclick="abrirIPFS()">Abrir Âncora no IPFS</button>
+      <button onclick="comparar()">Comparar Hashes</button>
+      <button onclick="window.print()">Imprimir Resultado</button>
+
+      <div id="resultado" class="result"></div>
+    </section>
+
+    <footer>
+      <p>
+        Página estática. Nenhum dado é coletado ou transmitido.
+        Toda validação ocorre no navegador do usuário.
+      </p>
+    </footer>
+
+  </div>
+
+<script>
+async function abrirIPFS() {
+  const cid = document.getElementById('cid').value.trim();
+  if (!cid) {
+    alert('Informe o CID.');
+    return;
+  }
+  window.open('https://ipfs.io/ipfs/' + cid + '/', '_blank');
+}
+
+async function comparar() {
+  const cid = document.getElementById('cid').value.trim();
+  const sha256 = document.getElementById('sha256').value.trim();
+  const sha1 = document.getElementById('sha1').value.trim();
+  const md5 = document.getElementById('md5').value.trim();
+  const resultado = document.getElementById('resultado');
+
+  if (!cid) {
+    resultado.textContent = 'CID não informado.';
+    resultado.className = 'result err';
+    return;
+  }
+
+  try {
+    const resp = await fetch('https://ipfs.io/ipfs/' + cid + '/ancora-integridade.txt');
+    const texto = await resp.text();
+
+    const r256 = texto.match(/SHA-256.*:\s*([a-f0-9]+)/i)?.[1] || '';
+    const r1 = texto.match(/SHA-1.*:\s*([a-f0-9]+)/i)?.[1] || '';
+    const rmd5 = texto.match(/MD5.*:\s*([a-f0-9]+)/i)?.[1] || '';
+
+    let out = 'RESULTADO DA VERIFICAÇÃO\n\n';
+
+    out += `SHA-256: ${sha256.toUpperCase() === r256.toUpperCase() ? 'OK' : 'DIVERGENTE'}\n`;
+    out += `SHA-1  : ${sha1.toUpperCase() === r1.toUpperCase() ? 'OK' : 'DIVERGENTE'}\n`;
+    out += `MD5    : ${md5.toUpperCase() === rmd5.toUpperCase() ? 'OK' : 'DIVERGENTE'}\n\n`;
+
+    out += 'Hashes informados:\n';
+    out += `SHA-256: ${sha256}\nSHA-1  : ${sha1}\nMD5    : ${md5}\n\n`;
+
+    out += 'Hashes da âncora:\n';
+    out += `SHA-256: ${r256}\nSHA-1  : ${r1}\nMD5    : ${rmd5}\n`;
+
+    resultado.textContent = out;
+    resultado.className = 'result ' + ((sha256 === r256) ? 'ok' : 'warn');
+
+  } catch (e) {
+    resultado.textContent = 'Erro ao acessar o CID ou arquivo ancora-integridade.txt';
+    resultado.className = 'result err';
+  }
+}
+</script>
+
+</body>
+</html>

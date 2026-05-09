@@ -1,0 +1,54 @@
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                    DOMÍNIO WEB3 (.wallet)                                       │
+│                  caiotavares.wallet (Polygon)                                   │
+│                                                                                 │
+│  Resolução IPFS (âncora institucional)                                          │
+│  ipfs.html.value → bafybeifdjzqigk73spk6m7nmn6mjsts4mko3svhidbsverha4nxx7xrcim  │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌───────────────────────────────────────────────────────────────────────────────┐
+│              SITE INSTITUCIONAL (IPFS)                                        │
+│              CID: bafybeifdjzqigk73spk6m7nmn6mjsts4mko3svhidbsverha4nxx7xrcim │
+│                                                                               │
+│  • Identidade institucional                                                   │
+│  • Logomarca oficial                                                          │
+│  • Vínculos oficiais (.com, e-mail, LinkedIn)                                 │
+│  • Referências técnicas                                                       │
+│                                                                               │
+│  Links explícitos para:                                                       │
+│   ├─ Manifesto Técnico                                                        │
+│   └─ Página Pública de Verificação                                            │
+└───────────────────────────────────────────────────────────────────────────────┘
+           │                                   │
+           ▼                                   ▼
+┌──────────────────────────────┐   ┌───────────────────────────────┐
+│ MANIFESTO TÉCNICO (IPFS)     │   │ PÁGINA PÚBLICA DE VERIFICAÇÃO │
+│ CID: bafybeib7lzgp7tati...   │   │ CID: bafybeih4fcbo4nqgxlpvok..│
+│                              │   │                               │
+│ • Princípios técnicos        │   │ • Interface estática          │
+│ • Escopo e limitações        │   │ • Leitura automática IPFS     │
+│ • Uso institucional do IPFS  │   │ • Comparação multi-hash       │
+│ • Base metodológica          │   │ • Relatório imprimível        │
+└──────────────────────────────┘   └───────────────────────────────┘
+                                               │
+                                               ▼
+                             ┌──────────────────────────────────┐
+                             │ ÂNCORAS DE INTEGRIDADE (IPFS)    │
+                             │ CID por evidência                │
+                             │                                  │
+                             │ • ancora-integridade.txt         │
+                             │ • SHA-256 (primário)             │
+                             │ • SHA-1 / MD5 (auxiliares)       │
+                             │ • Sem exposição do arquivo       │
+                             └──────────────────────────────────┘
+                                               │
+                                               ▼
+                             ┌──────────────────────────────────┐
+                             │ ARQUIVO ORIGINAL                 │
+                             │ (sob custódia controlada)        │
+                             │                                  │
+                             │ • Não publicado                  │
+                             │ • Não transferido                │
+                             │ • Integridade garantida por hash │
+                             └──────────────────────────────────┘

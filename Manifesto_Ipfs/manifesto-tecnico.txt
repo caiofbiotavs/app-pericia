@@ -1,0 +1,8 @@
+Este manifesto formaliza o uso institucional de tecnologias descentralizadas
+(IPFS e domínios Web3) como âncoras de identidade, integridade e autoria.
+
+O conteúdo publicado é estático, auditável e versionável, não hospedando
+serviços, aplicações ou processamento de dados.
+
+Qualquer modificação resulta em novo identificador criptográfico (CID),
+permitindo verificação pública de integridade e histórico técnico.

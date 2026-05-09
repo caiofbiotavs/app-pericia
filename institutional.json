@@ -1,0 +1,21 @@
+{
+  "identity": {
+    "name": "Caio Fábio Tavares Almeida",
+    "role": "Perito Judicial em Informática Forense"
+  },
+  "official_links": {
+    "website": "https://caiotavs.com",
+    "email": "perito@caiotavs.com",
+    "linkedin": "https://www.linkedin.com/in/caio-fábio-tavares-almeida"
+  },
+  "publication": {
+    "type": "institutional-anchor",
+    "network": "IPFS",
+    "domain": "caiotavares.wallet",
+    "purpose": "Public identity, integrity and authorship reference"
+  },
+  "constraints": {
+    "hosts_services": false,
+    "dynamic_content": false
+  }
+}

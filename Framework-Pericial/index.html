@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Framework Pericial Digital · v1.0</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    :root {
+      --bg: #020617;
+      --panel: rgba(255, 255, 255, 0.05);
+      --panel-border: rgba(255, 255, 255, 0.12);
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --accent: #cbd5f5;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
+      background: radial-gradient(circle at top, #020617, #020617);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 56px 24px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .selo {
+      max-width: 180px;
+      margin: 0 auto 24px auto;
+      display: block;
+      filter: drop-shadow(0 0 12px rgba(255,255,255,0.15));
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+      letter-spacing: 0.6px;
+      font-weight: 600;
+    }
+
+    header p {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    section {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: 14px;
+      padding: 32px;
+      margin-bottom: 28px;
+      backdrop-filter: blur(6px);
+    }
+
+    section h2 {
+      margin-top: 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    ul { padding-left: 18px; }
+    li { margin-bottom: 10px; }
+
+    .diagram {
+      font-family: "Courier New", monospace;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px dashed var(--panel-border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 18px;
+      white-space: pre;
+      overflow-x: auto;
+      font-size: 0.9rem;
+      color: #e2e8f0;
+    }
+
+    footer {
+      margin-top: 64px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <header>
+      <img src="assets/selo-digital.png"
+           alt="Selo Digital Institucional"
+           class="selo" />
+      <h1>Framework Pericial Digital · v1.0</h1>
+      <p>Documento técnico institucional · Publicação imutável em IPFS</p>
+    </header>
+
+    <section>
+      <h2>Apresentação</h2>
+      <p>
+        Este framework consolida um método técnico e jurídico para o
+        tratamento de evidências digitais, com foco em integridade,
+        cadeia de custódia, imutabilidade pública e autenticidade documental.
+      </p>
+    </section>
+
+    <section>
+      <h2>Princípios Fundamentais</h2>
+      <ul>
+        <li>Geração local de hashes criptográficos</li>
+        <li>Âncora de integridade publicada em IPFS</li>
+        <li>Separação entre lógica pericial e repositórios</li>
+        <li>Documentos oficiais assinados com certificado ICP-Brasil (A3)</li>
+        <li>Auditoria técnica independente e verificável</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Arquitetura do Método</h2>
+      <div class="diagram">
+[Evidência Digital]
+        ↓
+[Hash Criptográfico]
+        ↓
+[Âncora de Integridade]
+        ↓
+[IPFS · CID Público]
+        ↓
+[Documentos Técnicos]
+        ↓
+[PDF Assinado · ICP-Brasil A3]
+        ↓
+[Índice + Logs]
+        ↓
+[Nextcloud · Repositório Auditável]
+      </div>
+    </section>
+
+    <section>
+      <h2>Autor</h2>
+      <p>
+        <strong>Caio Fábio Tavares Almeida</strong><br />
+        Perito Judicial · Informática Forense<br />
+        Especialista em Dados e Produtos Digitais
+      </p>
+    </section>
+
+    <footer>
+      Framework Pericial Digital · v1.0<br />
+      Cadeia de custódia · Integridade · Auditoria
+    </footer>
+
+  </div>
+</body>
+</html>

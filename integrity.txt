@@ -1,0 +1,10 @@
+Este conteúdo foi publicado em rede descentralizada (IPFS)
+por seu titular legítimo, como âncora institucional e técnica.
+
+A tecnologia IPFS garante que qualquer modificação no conteúdo
+gere um novo identificador criptográfico (CID), permitindo
+verificação pública de integridade, autoria e versionamento.
+
+Este endereço não hospeda serviços dinâmicos, aplicações
+ou dados operacionais. Seu objetivo é exclusivamente
+institucional e referencial.
