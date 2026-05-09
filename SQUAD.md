@@ -38,7 +38,12 @@
 - QA: validar `site/test/index.html` e atualizar `site/test/README.md`.
 - Scrum Master: conduzir revisão e demo.
 
-### Sprint 2
+### Sprint 2 (em andamento)
+- Product Owner: revisar roadmap após Sprint 1 e priorizar filtros e relatórios.
+- UX/Design: validar refinamentos do dashboard e do explorador de blocos.
+- DevOps: garantir que o app continue 100% estático e que exportação de relatório funcione em navegadores.
+- Desenvolvedor: implementar campo de caso/processo, filtro por referência/processo e exportação de relatório técnico.
+- QA: criar testes de comportamento para relatório de integridade e validar o novo fluxo.
 - Product Owner: priorizar casos/processos e relatório técnico.
 - Desenvolvedor: adicionar filtro e metadados de processo.
 - QA: criar novos testes de fluxo de case management.

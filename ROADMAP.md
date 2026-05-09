@@ -50,12 +50,17 @@ Oferecer um sistema estático que permita ao perito registrar evidências, valid
 
 ## Sprints
 
+### Status atual
+- Sprint 1 concluído: gerador de hash de artefatos, explorador de blocos e teste de comportamento implementados.
+- Sprint 2 em andamento: campo de processo, filtro de evidências e exportação de relatório técnico.
+- Revisão do Product Owner, UX/Design e DevOps em progresso para ajustar os próximos refinamentos.
+
 ### Sprint 1 — MVP aprimorado (1-2 semanas)
-- Implementar gerador de hash de artefatos no dashboard.
-- Adicionar visão resumida de blocos com detalhes clicáveis.
-- Atualizar documentação: roadmap, squad, stories.
-- Manter TDD: criar e/ou atualizar testes de comportamento.
-- Ajustar UX de validação e feedback.
+- Implementar gerador de hash de artefatos no dashboard. ✅
+- Adicionar visão resumida de blocos com detalhes clicáveis. ✅
+- Atualizar documentação: roadmap, squad, stories. ✅
+- Manter TDD: criar e/ou atualizar testes de comportamento. ✅
+- Ajustar UX de validação e feedback. ✅
 
 ### Sprint 2 — Caso e relatório (2 semanas)
 - Adicionar campo de caso/processo por registro.

@@ -171,6 +171,23 @@
     return JSON.stringify({ chain: this.blocks }, null, 2);
   };
 
+  LocalChain.prototype.getReport = function () {
+    var self = this;
+    return self.validate().then(function (validation) {
+      return {
+        generatedAt: new Date().toISOString(),
+        blocksCount: self.blocks.length,
+        valid: validation.ok,
+        errors: validation.errors,
+        summary: {
+          firstBlockIndex: self.blocks.length ? self.blocks[0].index : null,
+          lastBlockIndex: self.blocks.length ? self.blocks[self.blocks.length - 1].index : null,
+        },
+        chain: self.blocks,
+      };
+    });
+  };
+
   LocalChain.prototype.importReplace = function (jsonText) {
     var j = JSON.parse(jsonText);
     if (!j || !Array.isArray(j.chain)) {

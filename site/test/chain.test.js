@@ -66,6 +66,18 @@ it('calcula SHA-256 de um buffer corretamente', function () {
   });
 });
 
+it('gera relatório de integridade da cadeia', function () {
+  var chain = new PericiaChain.LocalChain([]);
+  return chain.addGenesis().then(function () {
+    return chain.getReport();
+  }).then(function (report) {
+    assert.equal(report.blocksCount, 1, 'Relatório deve conter um bloco gênese');
+    assert.equal(report.valid, true, 'Relatório identifica cadeia válida');
+    assert.equal(report.summary.firstBlockIndex, 0, 'Resumo deve expor índice do primeiro bloco');
+    assert.equal(report.summary.lastBlockIndex, 0, 'Resumo deve expor índice do último bloco');
+  });
+});
+
 it('lança erro ao importar JSON inválido com importReplace', function () {
   var chain = new PericiaChain.LocalChain([]);
   try {
