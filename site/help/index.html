@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ajuda — App Perícia</title>
+  <link rel="stylesheet" href="../css/pericia.css" />
+</head>
+<body>
+  <header>
+    <h1>Ajuda e manual de uso</h1>
+    <nav>
+      <a href="../index.html">Início</a>
+      <a href="../dashboard/dashboard.html">Dashboard</a>
+      <a href="../validacao/index.html">Validação</a>
+      <a href="../verificacao_publica/index.html">Verificação pública</a>
+      <a href="index.html">Ajuda</a>
+      <a href="../painel_admin/admin.html">Admin</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Visão geral</h2>
+      <p>
+        Este manual é o guia operacional do App Perícia. Ele descreve os passos que um perito ou auditor deve seguir para registrar evidências, validar cadeias, gerar prova pública e administrar o sistema.
+      </p>
+      <p>
+        Sempre que uma funcionalidade for alterada, volte a esta página para confirmar o fluxo atualizado. Use o menu para navegar rapidamente entre as páginas do app.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Dashboard</h2>
+      <ol>
+        <li>Abra o menu e clique em <strong>Dashboard</strong>.</li>
+        <li>Preencha os campos de referência, processo/caso, descrição e hash do artefato.</li>
+        <li>Clique em <strong>Adicionar bloco</strong> para incluir a evidência na cadeia local.</li>
+        <li>Para gerar hash de um arquivo, use o campo de hash e clique em <strong>Gerar hash</strong>.</li>
+        <li>Quando quiser salvar a cadeia, clique em <strong>Exportar cadeia</strong> e baixe o arquivo JSON.</li>
+        <li>Para carregar uma cadeia existente, clique em <strong>Importar cadeia</strong> e escolha o arquivo JSON exportado.</li>
+      </ol>
+      <p>
+        O Dashboard mantém os dados no navegador usando <strong>localStorage</strong>. Se você fechar a aba, a cadeia continua disponível no mesmo navegador, a menos que seja apagada manualmente no Admin.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Validação</h2>
+      <ol>
+        <li>Abra o menu e selecione <strong>Validação</strong>.</li>
+        <li>Clique em <strong>Validar cadeia local</strong> para verificar os hashes e a sequência de blocos carregados.</li>
+        <li>Para validar uma cadeia externa, use <strong>Importar arquivo</strong> e selecione o JSON exportado de outra máquina.</li>
+        <li>Verifique o resultado exibido na página: se a cadeia estiver íntegra, a validação retorna com indicação de sucesso.</li>
+      </ol>
+      <p>
+        A validação recalcula todos os SHA-256 e compara cada hash com o bloco anterior. Isso garante que a cadeia não foi alterada depois de criada.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Verificação pública</h2>
+      <ol>
+        <li>Abra o menu e clique em <strong>Verificação pública</strong>.</li>
+        <li>Clique em <strong>Gerar token público</strong> para criar um código que representa a cadeia atual.</li>
+        <li>Use o QR code para compartilhar o token ou copie o texto gerado.</li>
+        <li>Para comparar uma prova recebida, cole o token e clique em <strong>Verificar token</strong>.</li>
+      </ol>
+      <p>
+        O token público é uma forma simples de confirmar a correspondência entre uma cadeia local e uma prova compartilhada. Ele não substitui a exportação JSON, mas ajuda em verificações rápidas.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Painel Admin</h2>
+      <ol>
+        <li>Abra o menu e selecione <strong>Admin</strong>.</li>
+        <li>Informe seu usuário e senha e clique em <strong>Login</strong>.</li>
+        <li>Para limpar a cadeia local, clique em <strong>Limpar cadeia</strong>.</li>
+        <li>Para importar um arquivo de cadeia, use <strong>Importar cadeia</strong> no painel Admin.</li>
+      </ol>
+      <p>
+        O painel Admin é uma ferramenta administrativa de demonstração. Não use as credenciais do `users.json` como um sistema de segurança de produção.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Publicação em IPFS / Pinata</h2>
+      <ol>
+        <li>Copie `site/js/config.example.js` para `site/js/config.js`.</li>
+        <li>Abra `site/js/config.js` e adicione seu JWT do Pinata.</li>
+        <li>Mantenha `site/js/config.js` fora do repositório e nunca compartilhe o JWT publicamente.</li>
+        <li>Use os botões de publicação da página correspondente para enviar a cadeia ou o relatório para o Pinata.</li>
+      </ol>
+      <p>
+        Em ambientes reais, prefira mover o token JWT para um backend seguro e não armazenar segredos diretamente no cliente.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Atualização da documentação</h2>
+      <p>
+        Esta página é atualizada no final de cada sprint. Se o fluxo de uso mudar, revise imediatamente estas instruções antes de usar o app novamente.
+      </p>
+    </section>
+  </main>
+
+  <footer>Manual operacional do App Perícia — atualizado a cada sprint.</footer>
+</body>
+</html>

@@ -188,6 +188,108 @@
     });
   };
 
+  LocalChain.prototype.getProofToken = function () {
+    var self = this;
+    var payload = self.blocks
+      .map(function (b) {
+        return [b.index, b.previousHash, b.hash, JSON.stringify(b.data)].join('|');
+      })
+      .join('||');
+    return sha256hex(payload).then(function (hash) {
+      return 'pericia-proof:' + hash;
+    });
+  };
+
+  var PINATA_BASE_URL = 'https://api.pinata.cloud';
+
+  function getPinataJwt() {
+    return (global.PINATA_CONFIG && global.PINATA_CONFIG.jwt) || '';
+  }
+
+  function ensurePinataJwt() {
+    var jwt = getPinataJwt();
+    if (!jwt) {
+      throw new Error(
+        'Pinata JWT não configurado. Crie site/js/config.js a partir de site/js/config.example.js e não comite este arquivo.'
+      );
+    }
+    return jwt;
+  }
+
+  function pinataHeaders() {
+    return {
+      Authorization: 'Bearer ' + ensurePinataJwt(),
+    };
+  }
+
+  function pinataMetadata(name) {
+    return { name: name || 'pericia-chain' };
+  }
+
+  LocalChain.prototype.pinataUploadJson = function (content, name) {
+    return fetch(PINATA_BASE_URL + '/pinning/pinJSONToIPFS', {
+      method: 'POST',
+      headers: Object.assign({ 'Content-Type': 'application/json' }, pinataHeaders()),
+      body: JSON.stringify({
+        pinataOptions: { cidVersion: 1 },
+        pinataMetadata: pinataMetadata(name),
+        pinataContent: content,
+      }),
+    }).then(function (res) {
+      if (!res.ok) {
+        return res.text().then(function (text) {
+          throw new Error('Pinata falhou: ' + res.status + ' ' + text);
+        });
+      }
+      return res.json();
+    });
+  };
+
+  LocalChain.prototype.pinataUploadFile = function (file, name) {
+    var form = new FormData();
+    form.append('file', file, file.name);
+    form.append('pinataMetadata', JSON.stringify(pinataMetadata(name || file.name)));
+    form.append('pinataOptions', JSON.stringify({ cidVersion: 1 }));
+    return fetch(PINATA_BASE_URL + '/pinning/pinFileToIPFS', {
+      method: 'POST',
+      headers: pinataHeaders(),
+      body: form,
+    }).then(function (res) {
+      if (!res.ok) {
+        return res.text().then(function (text) {
+          throw new Error('Pinata falhou: ' + res.status + ' ' + text);
+        });
+      }
+      return res.json();
+    });
+  };
+
+  LocalChain.prototype.pinataPayloadForChain = function () {
+    var self = this;
+    return self.getProofToken().then(function (token) {
+      return {
+        type: 'pericia-chain',
+        generatedAt: new Date().toISOString(),
+        proofToken: token,
+        chain: self.blocks,
+      };
+    });
+  };
+
+  LocalChain.prototype.publishChainToPinata = function () {
+    var self = this;
+    return self.pinataPayloadForChain().then(function (payload) {
+      return self.pinataUploadJson(payload, 'pericia-chain');
+    });
+  };
+
+  LocalChain.prototype.publishReportToPinata = function () {
+    var self = this;
+    return self.getReport().then(function (report) {
+      return self.pinataUploadJson(report, 'pericia-chain-report');
+    });
+  };
+
   LocalChain.prototype.importReplace = function (jsonText) {
     var j = JSON.parse(jsonText);
     if (!j || !Array.isArray(j.chain)) {
@@ -210,10 +312,14 @@
     localStorage.removeItem(STORAGE_KEY);
   };
 
-  global.PericiaChain = {
+  var PericiaChain = {
     LocalChain: LocalChain,
     sha256hex: sha256hex,
     sha256hexBuffer: sha256hexBuffer,
     STORAGE_KEY: STORAGE_KEY,
   };
+
+  PericiaChain.pinataHeaders = pinataHeaders;
+
+  global.PericiaChain = PericiaChain;
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -13,14 +13,24 @@
       <a href="../index.html">Início</a>
       <a href="../dashboard/dashboard.html">Dashboard</a>
       <a href="index.html">Validação</a>
+      <a href="../verificacao_publica/index.html">Verificação pública</a>
+      <a href="../help/index.html">Ajuda</a>
       <a href="../painel_admin/admin.html">Admin</a>
     </nav>
   </header>
   <main>
-    <p class="card" style="margin-top:0;color:var(--muted);font-size:0.9rem">
-      Recalcula cada hash e verifica elos <code>previousHash</code>. Alterar manualmente o
-      <code>localStorage</code> quebra a cadeia.
-    </p>
+    <section class="card">
+      <h2>Como usar a Validação</h2>
+      <ol>
+        <li>Clique em <strong>Validar armazenamento local</strong> para conferir a cadeia salva no navegador.</li>
+        <li>Para validar um arquivo exportado, selecione o JSON e clique em <strong>Validar arquivo</strong>.</li>
+        <li>Leia a mensagem exibida para saber se a cadeia é íntegra ou se há erros.</li>
+      </ol>
+      <p style="margin:0;color:var(--muted);font-size:0.9rem">
+        A validação recalcula cada hash e verifica os elos <code>previousHash</code>. Alterar manualmente o
+        <code>localStorage</code> quebra a cadeia.
+      </p>
+    </section>
     <div id="flash"></div>
     <section class="card">
       <h2>Cadeia no navegador</h2>

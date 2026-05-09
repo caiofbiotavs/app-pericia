@@ -49,3 +49,12 @@
 - This repo has no package manager and no server-side code. Tests are available in `site/test/` and should be used for behavior regression.
 - This project is now organized with a lightweight roadmap and agile squad model in `ROADMAP.md` and `SQUAD.md`.
 - Fixes should not introduce server deployment complexities beyond the existing `deploy.sh`/`Caddyfile` model.
+
+## User Acceptance Workflow
+- Use `WORKFLOW.md` as the standard process for this project.
+- When acting as the user agent, adopt a pure non-technical persona.
+- Perform feature validation only from the help/manual documentation.
+- Report every pain point honestly and prioritize usability issues over technical detail.
+- Coordinate with the squad to create a roadmap from the user feedback.
+- Divide improvements into sprints, update documentation, and request a new user validation after each sprint.
+- Progress only when the previous user pain has been resolved and feedback is positive.

@@ -66,6 +66,33 @@ it('calcula SHA-256 de um buffer corretamente', function () {
   });
 });
 
+it('gera token público de prova a partir da cadeia', function () {
+  var chain = new PericiaChain.LocalChain([]);
+  return chain.addGenesis().then(function () {
+    return chain.getProofToken();
+  }).then(function (token) {
+    assert.ok(token.indexOf('pericia-proof:') === 0, 'Token de prova começa com prefixo correto');
+    assert.ok(token.length > 0, 'Token de prova não deve estar vazio');
+  });
+});
+
+it('monta payload de upload para Pinata corretamente', function () {
+  var chain = new PericiaChain.LocalChain([]);
+  return chain.addGenesis().then(function () {
+    return chain.pinataPayloadForChain();
+  }).then(function (payload) {
+    assert.equal(payload.type, 'pericia-chain', 'Payload deve incluir tipo de documento');
+    assert.ok(payload.proofToken.indexOf('pericia-proof:') === 0, 'Payload inclui token de prova');
+    assert.equal(Array.isArray(payload.chain), true, 'Payload contém array de blocos');
+  });
+});
+
+it('fornece cabeçalho de autenticação Pinata com JWT', function () {
+  window.PINATA_CONFIG = { jwt: 'dummy-jwt-token' };
+  var headers = PericiaChain.pinataHeaders();
+  assert.equal(headers.Authorization.indexOf('Bearer '), 0, 'Cabeçalho Authorization deve usar Bearer JWT');
+});
+
 it('gera relatório de integridade da cadeia', function () {
   var chain = new PericiaChain.LocalChain([]);
   return chain.addGenesis().then(function () {

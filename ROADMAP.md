@@ -53,6 +53,7 @@ Oferecer um sistema estático que permita ao perito registrar evidências, valid
 ### Status atual
 - Sprint 1 concluído: gerador de hash de artefatos, explorador de blocos e teste de comportamento implementados.
 - Sprint 2 em andamento: campo de processo, filtro de evidências e exportação de relatório técnico.
+- Sprint 5 em progresso: documentação operacional e usabilidade, instruções passo a passo e validação de ajuda para usuários não técnicos.
 - Revisão do Product Owner, UX/Design e DevOps em progresso para ajustar os próximos refinamentos.
 
 ### Sprint 1 — MVP aprimorado (1-2 semanas)
@@ -67,12 +68,32 @@ Oferecer um sistema estático que permita ao perito registrar evidências, valid
 - Implementar filtro de blocos por processo/referência.
 - Criar exportação de relatório técnico (JSON+metadata ou PDF futuro).
 - Revisar fluxo administrativo de importação.
+- Atualizar documentação de uso e ajuda como última tarefa do sprint.
 
 ### Sprint 3 — Verificação pública e confiança (2 semanas)
 - Gerar prova pública simples (token/QR básico).
 - Criar página de verificação pública ou instruções de verificação.
 - Documentar ancoragem futura em IPFS.
 - Preparar transição para backend seguro se houver demanda.
+- Atualizar manual e sessão de ajuda como última tarefa do sprint.
+
+### Sprint 4 — UI/UX premium e identidade visual (2 semanas)
+- Definir um sistema de design moderno: paleta premium, tipografia refinada, sombras suaves e componentes consistentes.
+- Refatorar cabeçalho e navegação para um menu claro, fixo e responsivo em todas as páginas.
+- Aplicar cards, botões e formulários com estados de foco, hover e feedback visual consistente.
+- Melhorar fluxo de usuário para ações principais: criar registro, validar cadeia, publicar prova e gerir administração.
+- Garantir acessibilidade básica: contraste, labels visíveis, foco por teclado, tamanho de alvo e leitura mobile.
+- Atualizar o dashboard para exibir status de cadeia, ações rápidas e resumo de integridade em destaque.
+- Criar um protótipo visual premium para relatórios, validação e verificação pública.
+- Incluir checklist de QA visual e regressão no final da sprint.
+- Atualizar documentação de uso e ajuda como última tarefa do sprint.
+
+### Sprint 5 — Documentação operacional e usabilidade (1-2 semanas)
+- Expandir o manual de ajuda com instruções passo a passo para Dashboard, Validação, Verificação pública e Admin.
+- Clarificar os fluxos de ação: gerar hash, exportar/importar cadeia, gerar/verificar token público e limpar cadeia.
+- Atualizar `site/test/ui.test.js` para validar a presença de orientações operacionais no manual.
+- Garantir que a documentação seja o ponto único de referência para um usuário não técnico.
+- Registrar o feedback do usuário e ajustar o roadmap com base nas dores identificadas.
 
 ## Critérios de sucesso
 - Usuário consegue criar, ver e validar a cadeia sem ler JSON bruto.

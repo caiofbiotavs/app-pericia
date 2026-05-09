@@ -55,7 +55,20 @@
 - DevOps: validar implantação estática e ancoragem futura.
 - QA: verificar fluxo de verificação externa.
 
+### Sprint 4
+- Product Owner: validar a nova documentação de ajuda e os critérios de usabilidade para usuários não técnicos.
+- UX/Design: revisar os textos do manual de operação e o fluxo de navegação para tornar a linguagem mais direta.
+- Desenvolvedor: atualizar `site/help/index.html` com instruções passo a passo e ajustar testes de UI.
+- QA: testar a página de ajuda e garantir que os passos descritos correspondem às ações no app.
+
+### Sprint 5
+- Product Owner: validar que a documentação operacional e os avisos inline tornem o app fácil de usar sem conhecimento técnico.
+- UX/Design: revisar as páginas principais e adicionar dicas de ação claras junto a botões e formulários.
+- Desenvolvedor: aplicar orientações inline no Dashboard, Validação, Verificação pública e Admin.
+- QA: executar a suíte de testes e confirmar a presença de instruções operacionais no manual e na UI.
+
 ## Modo de trabalho
 - Usar TDD para cada história implementada.
 - Priorizar mudanças leves e funcionais, evitando dependências externas.
 - Documentar cada sprint no repositório.
+- Adotar um ciclo de validação orientado por usuário: documentação → teste → feedback → roadmap → sprint → validação do usuário.

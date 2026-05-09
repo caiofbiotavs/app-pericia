@@ -16,3 +16,5 @@ Abra `site/test/index.html` em um navegador compatível ou sirva o diretório `s
 
 ## O que há de novo
 - A suíte valida o gerador de hash de arquivo e o explorador de blocos adicionados ao dashboard.
+- Testes de UI agora verificam navegação entre páginas, página de ajuda e painel Admin.
+- Adicionada verificação de orientações passo a passo no manual de ajuda para assegurar usabilidade não técnica.

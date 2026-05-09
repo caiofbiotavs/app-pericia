@@ -13,14 +13,25 @@
       <a href="../index.html">Início</a>
       <a href="../dashboard/dashboard.html">Dashboard</a>
       <a href="../validacao/index.html">Validação</a>
+      <a href="../verificacao_publica/index.html">Verificação pública</a>
+      <a href="../help/index.html">Ajuda</a>
       <a href="admin.html">Admin</a>
     </nav>
   </header>
   <main>
-    <p class="card" style="margin-top:0;color:var(--muted);font-size:0.9rem">
-      Autenticação apenas no cliente (hash SHA-256 comparado a
-      <code>users.json</code>). Não use como modelo de segurança em produção.
-    </p>
+    <section class="card">
+      <h2>Como usar o painel Admin</h2>
+      <ol>
+        <li>Informe usuário e senha e clique em <strong>Login</strong>.</li>
+        <li>Depois do login, você poderá importar um arquivo JSON ou apagar a cadeia local.</li>
+        <li>Use <strong>Importar e gravar no navegador</strong> para substituir a cadeia atual.</li>
+        <li>Use <strong>Apagar cadeia local</strong> somente se quiser reiniciar o processo no navegador.</li>
+      </ol>
+      <p style="margin:0;color:var(--muted);font-size:0.9rem">
+        Autenticação apenas no cliente (hash SHA-256 comparado a
+        <code>users.json</code>). Não use como modelo de segurança em produção.
+      </p>
+    </section>
     <div id="flash"></div>
     <section id="panel-login" class="card">
       <h2>Entrar</h2>

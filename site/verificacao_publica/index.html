@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Verificação Pública — Perícia</title>
+  <link rel="stylesheet" href="../css/pericia.css" />
+  <style>
+    .proof-card {
+      display: grid;
+      gap: 1rem;
+    }
+    .proof-card button {
+      width: auto;
+    }
+    .proof-output {
+      white-space: pre-wrap;
+      word-break: break-word;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 0.75rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-family: monospace;
+    }
+    .qr-card {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .qr-card img {
+      width: 200px;
+      height: 200px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Verificação pública de prova</h1>
+    <nav>
+      <a href="../index.html">Início</a>
+      <a href="../dashboard/dashboard.html">Dashboard</a>
+      <a href="../validacao/index.html">Validação</a>
+      <a href="../help/index.html">Ajuda</a>
+      <a href="../painel_admin/admin.html">Admin</a>
+      <a href="index.html">Verificação pública</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="card proof-card">
+      <h2>Como usar a Verificação pública</h2>
+      <ol>
+        <li>Clique em <strong>Gerar token de prova</strong> para criar um token do estado atual da cadeia.</li>
+        <li>Use o botão <strong>Copiar token</strong> ou o QR code para compartilhar a prova.</li>
+        <li>Cole um token no campo de verificação e clique em <strong>Verificar token</strong>.</li>
+      </ol>
+      <p style="margin:0;color:var(--muted);font-size:0.95rem">
+        O token indica a integridade atual da cadeia local. Ele permite comparar se duas cadeias são iguais sem enviar todo o JSON.
+      </p>
+    </section>
+    <section class="card proof-card">
+      <h2>Geração de token público</h2>
+      <p style="margin:0;color:var(--muted);font-size:0.95rem">
+        Gere um token que representa a cadeia atual de evidências. Este token pode ser compartilhado
+        como prova pública e verificado novamente a partir de outro navegador.
+      </p>
+      <button id="btn-generate-token" type="button" class="secondary">Gerar token de prova</button>
+      <div class="proof-output" id="proof-token">Token de prova não gerado.</div>
+      <div class="qr-card">
+        <div>
+          <strong>QR code</strong>
+          <img id="proof-qr" alt="QR code do token público" src="" />
+        </div>
+        <div>
+          <p class="hint">O QR code codifica o token público ou a URL de verificação.</p>
+          <button id="btn-copy-token" type="button" class="secondary">Copiar token</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card proof-card">
+      <h2>Verificação de token</h2>
+      <label for="verify-token">Insira um token público para comparar com a cadeia local</label>
+      <input id="verify-token" type="text" placeholder="pericia-proof:..." />
+      <button id="btn-verify-token" type="button">Verificar token</button>
+      <div id="verify-result" class="proof-output">Nenhuma verificação realizada.</div>
+    </section>
+
+    <section class="card proof-card">
+      <h2>Informações da cadeia</h2>
+      <div id="chain-info" class="proof-output">Carregando...</div>
+    </section>
+  </main>
+
+  <footer>Prova pública básica gerada no navegador. Nenhum dado é enviado.</footer>
+
+  <script src="../js/chain.js"></script>
+  <script>
+    (function () {
+      var chain;
+      var proofTokenEl = document.getElementById('proof-token');
+      var proofQr = document.getElementById('proof-qr');
+      var verifyResult = document.getElementById('verify-result');
+      var chainInfo = document.getElementById('chain-info');
+
+      function setInfo(text) {
+        chainInfo.textContent = text;
+      }
+
+      function setProof(text) {
+        proofTokenEl.textContent = text;
+      }
+
+      function setVerifyResult(message, status) {
+        verifyResult.textContent = message;
+        verifyResult.className = 'proof-output ' + status;
+      }
+
+      function buildQr(value) {
+        var url = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(value);
+        proofQr.src = url;
+      }
+
+      function updateChainInfo(c) {
+        if (!c) {
+          setInfo('Cadeia não encontrada. Acesse o Dashboard para criar ou carregar a cadeia.');
+          return;
+        }
+        setInfo(
+          'Blocos: ' + c.blocks.length + '\n' +
+          'Hash do último bloco: ' + (c.blocks.length ? c.blocks[c.blocks.length - 1].hash : '(nenhum)') + '\n' +
+          'Hash do primeiro bloco: ' + (c.blocks.length ? c.blocks[0].hash : '(nenhum)')
+        );
+      }
+
+      function loadChain(callback) {
+        window.PericiaChain.LocalChain.createOrLoad('../blockchain.json').then(function (c) {
+          chain = c;
+          updateChainInfo(c);
+          if (callback) callback();
+        }).catch(function (e) {
+          chain = null;
+          setInfo('Erro ao carregar cadeia: ' + (e.message || e));
+        });
+      }
+
+      function generateToken() {
+        if (!chain) {
+          setProof('Cadeia não carregada. Acesse o Dashboard primeiro.');
+          proofQr.src = '';
+          return;
+        }
+        chain.getProofToken().then(function (token) {
+          setProof(token);
+          buildQr(token);
+        });
+      }
+
+      function verifyToken() {
+        var token = document.getElementById('verify-token').value.trim();
+        if (!token) {
+          setVerifyResult('Informe um token para verificação.', 'err');
+          return;
+        }
+        if (!chain) {
+          setVerifyResult('Cadeia não carregada. Acesse o Dashboard primeiro.', 'err');
+          return;
+        }
+        chain.getProofToken().then(function (current) {
+          if (current === token) {
+            setVerifyResult('Token válido para a cadeia local.', 'ok');
+          } else {
+            setVerifyResult('Token não corresponde à cadeia local.', 'warn');
+          }
+        });
+      }
+
+      document.getElementById('btn-generate-token').addEventListener('click', generateToken);
+      document.getElementById('btn-verify-token').addEventListener('click', verifyToken);
+      document.getElementById('btn-copy-token').addEventListener('click', function () {
+        var token = proofTokenEl.textContent;
+        if (!token || token.indexOf('pericia-proof:') !== 0) return;
+        navigator.clipboard.writeText(token).then(function () {
+          proofTokenEl.textContent = token + '\n\n(Copiado para a área de transferência)';
+        });
+      });
+
+      function maybePrefillTokenFromUrl() {
+        var params = new URLSearchParams(window.location.search);
+        var token = params.get('token');
+        if (token) {
+          document.getElementById('verify-token').value = token;
+          verifyToken();
+        }
+      }
+
+      loadChain(maybePrefillTokenFromUrl);
+    })();
+  </script>
+</body>
+</html>

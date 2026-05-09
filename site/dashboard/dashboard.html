@@ -13,14 +13,25 @@
       <a href="../index.html">Início</a>
       <a href="dashboard.html">Dashboard</a>
       <a href="../validacao/index.html">Validação</a>
+      <a href="../verificacao_publica/index.html">Verificação pública</a>
+      <a href="../help/index.html">Ajuda</a>
       <a href="../painel_admin/admin.html">Admin</a>
     </nav>
   </header>
   <main>
-    <p class="card" style="margin-top:0;color:var(--muted);font-size:0.9rem">
-      Os blocos ficam apenas no <strong>localStorage</strong> deste navegador. Use exportar para
-      guardar <code>blockchain.json</code> e validar em outra máquina ou após importação.
-    </p>
+    <section class="card">
+      <h2>Como usar o Dashboard</h2>
+      <ol>
+        <li>Preencha referência, processo/caso e descrição.</li>
+        <li>Informe o hash do artefato ou gere-o em <strong>Gerador de hash de artefato</strong>.</li>
+        <li>Clique em <strong>Incluir bloco</strong> para registrar a evidência na cadeia local.</li>
+        <li>Use <strong>Exportar JSON</strong> para salvar a cadeia em outro dispositivo.</li>
+      </ol>
+      <p style="margin:0;color:var(--muted);font-size:0.9rem">
+        Os blocos ficam apenas no <strong>localStorage</strong> deste navegador. Use exportar para
+        guardar <code>blockchain.json</code> e validar em outra máquina ou após importação.
+      </p>
+    </section>
     <div id="flash"></div>
     <section class="card">
       <h2>Novo registro (metadado de evidência)</h2>
@@ -42,6 +53,21 @@
       <input id="file-hash" type="file" />
       <button type="button" id="btn-hash-file" class="secondary">Calcular SHA-256</button>
       <pre id="hash-result" class="chain">Nenhum hash calculado.</pre>
+    </section>
+    <section class="card">
+      <h2>Upload para IPFS via Pinata</h2>
+      <p>Publique a cadeia local, relatório de integridade ou um arquivo diretamente no Pinata Cloud.</p>
+      <div class="row">
+        <button type="button" id="btn-pin-chain" class="secondary">Publicar cadeia no Pinata</button>
+        <button type="button" id="btn-pin-report" class="secondary">Publicar relatório no Pinata</button>
+      </div>
+      <label for="pinata-file">Arquivo para upload</label>
+      <input id="pinata-file" type="file" />
+      <button type="button" id="btn-pin-file" class="secondary">Publicar arquivo no Pinata</button>
+      <label for="pinata-cid">CID Pinata</label>
+      <input id="pinata-cid" readonly placeholder="Nenhum CID gerado ainda" />
+      <button type="button" id="btn-open-cid" class="secondary">Abrir no gateway IPFS</button>
+      <div id="pinata-status" class="muted">O upload via Pinata usa JWT de autenticação.</div>
     </section>
     <section class="card">
       <h2>Cadeia atual</h2>
@@ -198,6 +224,61 @@
 
       document.getElementById('btn-report').addEventListener('click', function () {
         exportReport();
+      });
+
+      function updatePinataCID(cid) {
+        var cidInput = document.getElementById('pinata-cid');
+        cidInput.value = cid || '';
+        document.getElementById('pinata-status').textContent = cid
+          ? 'Publicação concluída. CID: ' + cid
+          : 'Nenhum CID recebido.';
+      }
+
+      function openIpfsCid(cid) {
+        if (!cid) {
+          flash(false, 'Nenhum CID definido para abrir.');
+          return;
+        }
+        window.open('https://ipfs.io/ipfs/' + cid + '/', '_blank');
+      }
+
+      function handlePinataError(err) {
+        flash(false, err.message || String(err));
+        document.getElementById('pinata-status').textContent = 'Falha no upload para Pinata.';
+      }
+
+      document.getElementById('btn-open-cid').addEventListener('click', function () {
+        openIpfsCid(document.getElementById('pinata-cid').value.trim());
+      });
+
+      document.getElementById('btn-pin-chain').addEventListener('click', function () {
+        flash(false, 'Publicando cadeia no Pinata...');
+        chain.publishChainToPinata().then(function (resp) {
+          updatePinataCID(resp.IpfsHash);
+          flash(true, 'Cadeia publicada no Pinata.');
+        }).catch(handlePinataError);
+      });
+
+      document.getElementById('btn-pin-report').addEventListener('click', function () {
+        flash(false, 'Publicando relatório no Pinata...');
+        chain.publishReportToPinata().then(function (resp) {
+          updatePinataCID(resp.IpfsHash);
+          flash(true, 'Relatório publicado no Pinata.');
+        }).catch(handlePinataError);
+      });
+
+      document.getElementById('btn-pin-file').addEventListener('click', function () {
+        var fileInput = document.getElementById('pinata-file');
+        var file = fileInput.files && fileInput.files[0];
+        if (!file) {
+          flash(false, 'Selecione um arquivo para upload.');
+          return;
+        }
+        flash(false, 'Publicando arquivo no Pinata...');
+        chain.pinataUploadFile(file, 'pericia-artifact-' + file.name).then(function (resp) {
+          updatePinataCID(resp.IpfsHash);
+          flash(true, 'Arquivo publicado no Pinata.');
+        }).catch(handlePinataError);
       });
 
       document.getElementById('form-registro').addEventListener('submit', function (ev) {
