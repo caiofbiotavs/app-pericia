@@ -7,18 +7,37 @@
   <link rel="stylesheet" href="../css/pericia.css" />
 </head>
 <body>
-  <header>
-    <h1>Dashboard — registro na cadeia local</h1>
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <img class="brand-logo" src="../../assets/selo.png" alt="Selo institucional" />
+      <p>App Perícia</p>
+    </div>
     <nav>
-      <a href="../index.html">Início</a>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="../validacao/index.html">Validação</a>
-      <a href="../verificacao_publica/index.html">Verificação pública</a>
-      <a href="../help/index.html">Ajuda</a>
-      <a href="../painel_admin/admin.html">Admin</a>
+      <div class="nav-section">
+        <h4>Informações</h4>
+        <a href="../../index.html">Institucional</a>
+        <a href="../../Manifesto_Ipfs/manifesto-tecnico.html">Manifesto Técnico</a>
+        <a href="../../Framework-Pericial/index.html">Framework Pericial</a>
+        <a href="../../verificacao-publica/index.html">Verificação Externa</a>
+      </div>
+      <div class="nav-section">
+        <h4>App Perícia</h4>
+        <a href="../index.html">Início</a>
+        <a href="dashboard.html" class="active">Dashboard</a>
+        <a href="../validacao/index.html">Validação</a>
+        <a href="../verificacao_publica/index.html">Verificação Local</a>
+        <a href="../help/index.html">Ajuda</a>
+        <a href="../painel_admin/admin.html">Admin</a>
+      </div>
     </nav>
-  </header>
-  <main>
+  </aside>
+  <div class="layout">
+    <header>
+      <button class="sidebar-toggle" type="button">Menu</button>
+      <h1>Dashboard — registro na cadeia local</h1>
+      <p class="breadcrumbs"><a href="../../index.html">Home</a> > <a href="../index.html">App Perícia</a> > Dashboard</p>
+    </header>
+    <main>
     <section class="card">
       <h2>Como usar o Dashboard</h2>
       <ol>
@@ -33,6 +52,10 @@
       </p>
     </section>
     <div id="flash"></div>
+    <section class="card status-card">
+      <h2>Status da cadeia</h2>
+      <p id="dashboard-status" class="hint-box">Carregando status da cadeia...</p>
+    </section>
     <section class="card">
       <h2>Novo registro (metadado de evidência)</h2>
       <form id="form-registro">
@@ -86,6 +109,7 @@
     </section>
   </main>
   <footer>Blocos encadeados com SHA-256 · sem servidor de aplicação</footer>
+  <div class="overlay" hidden></div>
   <script src="../js/chain.js"></script>
   <script>
     (function () {
@@ -151,10 +175,24 @@
           .join('');
       }
 
+      function renderStatus() {
+        var status = document.getElementById('dashboard-status');
+        if (!chain) {
+          status.textContent = 'Nenhuma cadeia disponível. Recarregue a página para criar ou carregar a cadeia.';
+          return;
+        }
+        var filtered = filterBlocks(filterQuery);
+        status.textContent =
+          'Blocos totais: ' + chain.blocks.length +
+          (filterQuery ? ' • Resultados para "' + filterQuery + '": ' + filtered.length : '') +
+          ' • Último hash: ' + (chain.blocks.length ? chain.blocks[chain.blocks.length - 1].hash : '(nenhum)');
+      }
+
       function render() {
         var pre = document.getElementById('chain-view');
         if (!chain) {
           pre.textContent = '(recarregue a página para recriar a cadeia)';
+          renderStatus();
           renderList();
           return;
         }
@@ -164,6 +202,7 @@
           return;
         }
         pre.textContent = JSON.stringify(chain.blocks, null, 2);
+        renderStatus();
         renderList();
       }
 
@@ -316,6 +355,18 @@
         flash(!!chain, chain ? 'Recarregado do armazenamento local.' : 'Nada no armazenamento.');
       });
     })();
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var toggle = document.querySelector('.sidebar-toggle');
+      var overlay = document.querySelector('.overlay');
+      toggle && toggle.addEventListener('click', function () {
+        document.body.classList.toggle('sidebar-open');
+      });
+      overlay && overlay.addEventListener('click', function () {
+        document.body.classList.remove('sidebar-open');
+      });
+    });
   </script>
 </body>
 </html>

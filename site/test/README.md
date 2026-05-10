@@ -1,20 +1,40 @@
 # Testes do App Perícia
 
-Abra `site/test/index.html` em um navegador compatível ou sirva o diretório `site/` por um servidor local.
+Este documento descreve como validar o App Perícia e as principais rotinas de regressão.
 
-## O que é testado
-- Criação de bloco gênese
-- Adição de blocos à cadeia
-- Validação de integridade da cadeia
-- Exportação e importação de JSON de cadeia
-- Autenticação de administrador (login/logout)
+## Objetivo dos testes
 
-## Como usar
-1. Sirva o diretório `site/` com um servidor estático simples.
-2. Abra `site/test/index.html` no navegador.
-3. Verifique o resultado dos testes na página.
+- Verificar criação do bloco gênese e adição de blocos à cadeia.
+- Confirmar validação de integridade da cadeia.
+- Testar exportação e importação de JSON de cadeia.
+- Validar autenticação administrativa.
+- Garantir navegação consistente no app e integração das páginas institucionais.
+- Checar breadcrumbs, menu ativo e comportamento do botão de menu.
 
-## O que há de novo
-- A suíte valida o gerador de hash de arquivo e o explorador de blocos adicionados ao dashboard.
-- Testes de UI agora verificam navegação entre páginas, página de ajuda e painel Admin.
-- Adicionada verificação de orientações passo a passo no manual de ajuda para assegurar usabilidade não técnica.
+## Como executar
+
+1. Sirva o diretório `site/` com um servidor HTTP simples:
+
+```sh
+cd site
+python3 -m http.server 8000
+```
+
+2. Abra `http://localhost:8000/test/index.html` no navegador.
+3. Confirme que os testes terminam sem erros e que o relatório na página está verde.
+
+## Fluxos validados
+
+- Criação e registro de bloco no Dashboard.
+- Visualização clara do estado da cadeia e do último hash.
+- Navegação entre as páginas `Início`, `Dashboard`, `Validação`, `Verificação Local`, `Ajuda` e `Admin`.
+- Acesso às páginas institucionais via menu lateral.
+- Breadcrumbs presentes nas páginas de app.
+- Sidebar expansível com overlay em telas menores.
+
+## Notas importantes
+
+- O app é estático; todo comportamento roda no browser.
+- Use caminhos relativos para não quebrar o hosting estático.
+- Atualize a documentação de ajuda sempre que o fluxo de navegação ou os textos de operação mudarem.
+

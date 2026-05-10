@@ -2,114 +2,44 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Framework Pericial Digital · v1.0</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <style>
-    :root {
-      --bg: #020617;
-      --panel: rgba(255, 255, 255, 0.05);
-      --panel-border: rgba(255, 255, 255, 0.12);
-      --text: #e5e7eb;
-      --muted: #94a3b8;
-      --accent: #cbd5f5;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-                   Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
-      background: radial-gradient(circle at top, #020617, #020617);
-      color: var(--text);
-      line-height: 1.65;
-    }
-
-    .container {
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 56px 24px;
-    }
-
-    header {
-      text-align: center;
-      margin-bottom: 56px;
-    }
-
-    .selo {
-      max-width: 180px;
-      margin: 0 auto 24px auto;
-      display: block;
-      filter: drop-shadow(0 0 12px rgba(255,255,255,0.15));
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 2rem;
-      letter-spacing: 0.6px;
-      font-weight: 600;
-    }
-
-    header p {
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    section {
-      background: var(--panel);
-      border: 1px solid var(--panel-border);
-      border-radius: 14px;
-      padding: 32px;
-      margin-bottom: 28px;
-      backdrop-filter: blur(6px);
-    }
-
-    section h2 {
-      margin-top: 0;
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--accent);
-    }
-
-    ul { padding-left: 18px; }
-    li { margin-bottom: 10px; }
-
-    .diagram {
-      font-family: "Courier New", monospace;
-      background: rgba(0, 0, 0, 0.45);
-      border: 1px dashed var(--panel-border);
-      border-radius: 10px;
-      padding: 20px;
-      margin-top: 18px;
-      white-space: pre;
-      overflow-x: auto;
-      font-size: 0.9rem;
-      color: #e2e8f0;
-    }
-
-    footer {
-      margin-top: 64px;
-      text-align: center;
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-  </style>
+  <link rel="stylesheet" href="../site/css/pericia.css" />
 </head>
-
 <body>
-  <div class="container">
-
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <img class="brand-logo" src="../assets/selo.png" alt="Selo institucional" />
+      <p>App Perícia</p>
+    </div>
+    <nav>
+      <div class="nav-section">
+        <h4>Informações</h4>
+        <a href="../index.html">Institucional</a>
+        <a href="../Manifesto_Ipfs/manifesto-tecnico.html">Manifesto Técnico</a>
+        <a href="index.html" class="active">Framework Pericial</a>
+        <a href="../verificacao-publica/index.html">Verificação Externa</a>
+      </div>
+      <div class="nav-section">
+        <h4>App Perícia</h4>
+        <a href="../site/index.html">Início</a>
+        <a href="../site/dashboard/dashboard.html">Dashboard</a>
+        <a href="../site/validacao/index.html">Validação</a>
+        <a href="../site/verificacao_publica/index.html">Verificação Local</a>
+        <a href="../site/help/index.html">Ajuda</a>
+        <a href="../site/painel_admin/admin.html">Admin</a>
+      </div>
+    </nav>
+  </aside>
+  <div class="layout">
     <header>
-      <img src="assets/selo-digital.png"
-           alt="Selo Digital Institucional"
-           class="selo" />
+      <button class="sidebar-toggle" type="button">Menu</button>
       <h1>Framework Pericial Digital · v1.0</h1>
-      <p>Documento técnico institucional · Publicação imutável em IPFS</p>
+      <p class="breadcrumbs"><a href="../index.html">Home</a> > Framework Pericial</p>
     </header>
-
-    <section>
+    <main>
+    <main>
+    <section class="card">
       <h2>Apresentação</h2>
       <p>
         Este framework consolida um método técnico e jurídico para o
@@ -118,7 +48,7 @@
       </p>
     </section>
 
-    <section>
+    <section class="card">
       <h2>Princípios Fundamentais</h2>
       <ul>
         <li>Geração local de hashes criptográficos</li>
@@ -129,9 +59,9 @@
       </ul>
     </section>
 
-    <section>
+    <section class="card">
       <h2>Arquitetura do Método</h2>
-      <div class="diagram">
+      <pre class="diagram">
 [Evidência Digital]
         ↓
 [Hash Criptográfico]
@@ -147,10 +77,10 @@
 [Índice + Logs]
         ↓
 [Nextcloud · Repositório Auditável]
-      </div>
+      </pre>
     </section>
 
-    <section>
+    <section class="card">
       <h2>Autor</h2>
       <p>
         <strong>Caio Fábio Tavares Almeida</strong><br />
@@ -158,12 +88,20 @@
         Especialista em Dados e Produtos Digitais
       </p>
     </section>
-
-    <footer>
-      Framework Pericial Digital · v1.0<br />
-      Cadeia de custódia · Integridade · Auditoria
-    </footer>
-
-  </div>
+  </main>
+  <footer>Framework Pericial Digital · v1.0 · Cadeia de custódia · Integridade · Auditoria</footer>
+  <div class="overlay" hidden></div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var toggle = document.querySelector('.sidebar-toggle');
+      var overlay = document.querySelector('.overlay');
+      toggle && toggle.addEventListener('click', function () {
+        document.body.classList.toggle('sidebar-open');
+      });
+      overlay && overlay.addEventListener('click', function () {
+        document.body.classList.remove('sidebar-open');
+      });
+    });
+  </script>
 </body>
 </html>

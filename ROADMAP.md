@@ -48,12 +48,37 @@ Oferecer um sistema estático que permita ao perito registrar evidências, valid
 - QR code para verificação externa.
 - Integração com serviços de prova pública.
 
+## Sprints Atuais
+
+### Sprint 1: Melhorias de Usabilidade (Concluído)
+**Objetivo:** Resolver dores críticas de navegação e clareza identificadas na validação de usuário não-técnico.
+
+**Tarefas Concluídas:**
+- ✅ Separar menu de navegação em categorias claras (Informações vs App Perícia)
+- ✅ Renomear "Verificação Pública" para "Verificação Externa" para evitar confusão
+- ✅ Adicionar indicador visual de página ativa no menu
+- ✅ Implementar breadcrumbs em todas as páginas
+- ✅ Adicionar guia passo-a-passo na página de Verificação Externa
+- ✅ Padronizar layout de páginas institucionais com sidebar e tema consistente
+
+**Resultado:** Navegação mais intuitiva, redução de confusão entre seções, melhor orientação do usuário.
+
+### Sprint 2: Expansão de Conteúdo Institucional (Próximo)
+**Objetivo:** Tornar páginas institucionais mais informativas e motivadoras para usuários não-técnicos.
+
+**Tarefas Planejadas:**
+- Expandir Manifesto Técnico com explicações mais acessíveis
+- Adicionar seção "Por que usar?" no Framework Pericial
+- Criar página de FAQ ou glossário de termos técnicos
+- Melhorar apresentação visual com ícones e diagramas simplificados
+
 ## Sprints
 
 ### Status atual
 - Sprint 1 concluído: gerador de hash de artefatos, explorador de blocos e teste de comportamento implementados.
 - Sprint 2 em andamento: campo de processo, filtro de evidências e exportação de relatório técnico.
-- Sprint 5 em progresso: documentação operacional e usabilidade, instruções passo a passo e validação de ajuda para usuários não técnicos.
+- Sprint 4 em progresso: UI/UX e usabilidade, orientações inline no Dashboard, Validação e Verificação pública.
+- Sprint 5 concluído: documentação operacional e ajuda passo a passo para usuário não técnico.
 - Revisão do Product Owner, UX/Design e DevOps em progresso para ajustar os próximos refinamentos.
 
 ### Sprint 1 — MVP aprimorado (1-2 semanas)

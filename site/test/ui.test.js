@@ -49,6 +49,23 @@ it('exibe a página de ajuda com seções de operação para recursos críticos'
   });
 });
 
+it('oferece instruções de uso no dashboard, validação e verificação pública', function () {
+  return Promise.all([
+    fetchPage('../dashboard/dashboard.html'),
+    fetchPage('../validacao/index.html'),
+    fetchPage('../verificacao_publica/index.html'),
+  ]).then(function (pages) {
+    var dashboard = pages[0];
+    var validation = pages[1];
+    var publicPage = pages[2];
+
+    assert.ok(dashboard.querySelector('#dashboard-status'), 'Dashboard mostra status da cadeia');
+    assert.ok(dashboard.body.textContent.indexOf('Como usar o Dashboard') !== -1, 'Dashboard tem instruções de uso');
+    assert.ok(validation.body.textContent.indexOf('Como usar a Validação') !== -1, 'Validação tem instruções de uso');
+    assert.ok(publicPage.body.textContent.indexOf('Como usar a Verificação pública') !== -1, 'Verificação pública tem instruções de uso');
+  });
+});
+
 it('provê formulário de login e ações administrativas na página Admin', function () {
   return fetchPage('../painel_admin/admin.html').then(function (doc) {
     assert.ok(doc.querySelector('form#form-login'), 'Formulário de login presente');

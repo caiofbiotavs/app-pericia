@@ -7,19 +7,38 @@
   <link rel="stylesheet" href="../css/pericia.css" />
 </head>
 <body>
-  <header>
-    <h1>Ajuda e manual de uso</h1>
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <img class="brand-logo" src="../../assets/selo.png" alt="Selo institucional" />
+      <p>App Perícia</p>
+    </div>
     <nav>
-      <a href="../index.html">Início</a>
-      <a href="../dashboard/dashboard.html">Dashboard</a>
-      <a href="../validacao/index.html">Validação</a>
-      <a href="../verificacao_publica/index.html">Verificação pública</a>
-      <a href="index.html">Ajuda</a>
-      <a href="../painel_admin/admin.html">Admin</a>
+      <div class="nav-section">
+        <h4>Informações</h4>
+        <a href="../../index.html">Institucional</a>
+        <a href="../../Manifesto_Ipfs/manifesto-tecnico.html">Manifesto Técnico</a>
+        <a href="../../Framework-Pericial/index.html">Framework Pericial</a>
+        <a href="../../verificacao-publica/index.html">Verificação Externa</a>
+      </div>
+      <div class="nav-section">
+        <h4>App Perícia</h4>
+        <a href="../index.html">Início</a>
+        <a href="../dashboard/dashboard.html">Dashboard</a>
+        <a href="../validacao/index.html">Validação</a>
+        <a href="../verificacao_publica/index.html">Verificação Local</a>
+        <a href="index.html" class="active">Ajuda</a>
+        <a href="../painel_admin/admin.html">Admin</a>
+      </div>
     </nav>
-  </header>
+  </aside>
+  <div class="layout">
+    <header>
+      <button class="sidebar-toggle" type="button">Menu</button>
+      <h1>Ajuda e manual de uso</h1>
+      <p class="breadcrumbs"><a href="../../index.html">Home</a> > <a href="../index.html">App Perícia</a> > Ajuda</p>
+    </header>
 
-  <main>
+    <main>
     <section class="card">
       <h2>Visão geral</h2>
       <p>
@@ -106,5 +125,18 @@
   </main>
 
   <footer>Manual operacional do App Perícia — atualizado a cada sprint.</footer>
+  <div class="overlay" hidden></div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var toggle = document.querySelector('.sidebar-toggle');
+      var overlay = document.querySelector('.overlay');
+      toggle && toggle.addEventListener('click', function () {
+        document.body.classList.toggle('sidebar-open');
+      });
+      overlay && overlay.addEventListener('click', function () {
+        document.body.classList.remove('sidebar-open');
+      });
+    });
+  </script>
 </body>
 </html>

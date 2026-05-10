@@ -2,142 +2,45 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Verificação Pública de Integridade · IPFS</title>
   <meta name="description" content="Verificação pública de integridade por hash e CID (IPFS)" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <style>
-    :root {
-      --bg-main: #f6f7f9;
-      --bg-card: rgba(255, 255, 255, 0.85);
-      --border-soft: rgba(11, 45, 77, 0.15);
-      --text-main: #071e33;
-      --text-muted: #6b7280;
-      --accent: #0b2d4d;
-      --ok: #0a7a0a;
-      --warn: #b45309;
-      --err: #b91c1c;
-    }
-
-    body {
-      margin: 0;
-      background:
-        radial-gradient(900px 500px at 10% -10%, rgba(31,79,122,0.08), transparent),
-        var(--bg-main);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-      color: var(--text-main);
-      line-height: 1.65;
-    }
-
-    .container {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 56px 24px 88px;
-    }
-
-    header {
-      margin-bottom: 48px;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 2.2rem;
-      font-weight: 600;
-    }
-
-    header h2 {
-      margin-top: 6px;
-      font-size: 1.1rem;
-      font-weight: 400;
-      color: var(--text-muted);
-    }
-
-    section {
-      background: var(--bg-card);
-      border: 1px solid var(--border-soft);
-      border-radius: 14px;
-      padding: 28px 32px;
-      margin-bottom: 28px;
-    }
-
-    section h3 {
-      margin-top: 0;
-      margin-bottom: 14px;
-      font-size: 1.25rem;
-      font-weight: 500;
-      color: var(--accent);
-      border-left: 4px solid var(--accent);
-      padding-left: 12px;
-    }
-
-    label {
-      display: block;
-      margin-top: 14px;
-      font-weight: 500;
-    }
-
-    input {
-      width: 100%;
-      padding: 8px;
-      margin-top: 4px;
-      font-family: monospace;
-    }
-
-    .hint {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    button {
-      margin-top: 16px;
-      padding: 10px 14px;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      margin-right: 8px;
-    }
-
-    .result {
-      margin-top: 16px;
-      padding: 14px;
-      border-radius: 8px;
-      font-family: monospace;
-      white-space: pre-wrap;
-      background: #fff;
-      border: 1px solid var(--border-soft);
-    }
-
-    .ok { color: var(--ok); }
-    .warn { color: var(--warn); }
-    .err { color: var(--err); }
-
-    footer {
-      margin-top: 64px;
-      padding-top: 24px;
-      border-top: 1px solid var(--border-soft);
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
-
-    @media print {
-      button { display: none; }
-      body { background: #fff; }
-    }
-  </style>
+  <link rel="stylesheet" href="../site/css/pericia.css" />
 </head>
-
 <body>
-  <div class="container">
-
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <img class="brand-logo" src="../assets/selo.png" alt="Selo institucional" />
+      <p>App Perícia</p>
+    </div>
+    <nav>
+      <div class="nav-section">
+        <h4>Informações</h4>
+        <a href="../index.html">Institucional</a>
+        <a href="../Manifesto_Ipfs/manifesto-tecnico.html">Manifesto Técnico</a>
+        <a href="../Framework-Pericial/index.html">Framework Pericial</a>
+        <a href="index.html" class="active">Verificação Externa</a>
+      </div>
+      <div class="nav-section">
+        <h4>App Perícia</h4>
+        <a href="../site/index.html">Início</a>
+        <a href="../site/dashboard/dashboard.html">Dashboard</a>
+        <a href="../site/validacao/index.html">Validação</a>
+        <a href="../site/verificacao_publica/index.html">Verificação Local</a>
+        <a href="../site/help/index.html">Ajuda</a>
+        <a href="../site/painel_admin/admin.html">Admin</a>
+      </div>
+    </nav>
+  </aside>
+  <div class="layout">
     <header>
+      <button class="sidebar-toggle" type="button">Menu</button>
       <h1>Verificação Pública de Integridade</h1>
-      <h2>Comparação de hashes criptográficos · IPFS</h2>
+      <p class="breadcrumbs"><a href="../index.html">Home</a> > Verificação Externa</p>
     </header>
-
-    <section>
-      <h3>Passo a passo de validação</h3>
-	 
+    <main>
+    <section class="card">
+      <h2>Passo a passo de validação</h2>
       <ol>
         <li>Calcule os hashes do arquivo original em sua máquina.</li>
         <li>Informe o CID IPFS da âncora de integridade.</li>
@@ -147,12 +50,25 @@
       </ol>
     </section>
 
-    <section>
-      <h3>Dados para verificação</h3>
+    <section class="card">
+      <h2>Como usar esta ferramenta</h2>
+      <p>
+        Esta página permite verificar a integridade de arquivos digitais publicados em IPFS, comparando hashes criptográficos.
+      </p>
+      <h3>Passos para verificação:</h3>
+      <ol>
+        <li><strong>Calcule os hashes do seu arquivo:</strong> Use ferramentas online como <a href="https://emn178.github.io/online-tools/sha256_checksum.html" target="_blank">SHA-256 Calculator</a> ou programas como HashCalc no Windows.</li>
+        <li><strong>Obtenha o CID IPFS:</strong> O CID é o identificador único do arquivo publicado (ex: bafy...).</li>
+        <li><strong>Preencha os campos:</strong> Insira o CID e os hashes calculados.</li>
+        <li><strong>Clique em "Comparar Hashes":</strong> A ferramenta buscará automaticamente os hashes publicados e comparará.</li>
+        <li><strong>Resultado:</strong> Verde = íntegro, Amarelo = divergente.</li>
+      </ol>
+      <p><strong>Nota:</strong> A comparação é case-insensitive (maiúsculas/minúsculas não importam).</p>
+    </section>
 
-       <div class="hint">A comparação de hashes é realizada de forma case-insensitive, uma vez que a representação hexadecimal não possui distinção semântica entre letras maiúsculas e minúsculas.</div>
-	  
-	  <label>CID IPFS da Âncora</label>
+      <div class="hint">A comparação de hashes é realizada de forma case-insensitive, uma vez que a representação hexadecimal não possui distinção semântica entre letras maiúsculas e minúsculas.</div>
+
+      <label>CID IPFS da Âncora</label>
       <input id="cid" placeholder="bafy..." />
       <div class="hint">CID onde está publicado o arquivo ancora-integridade.txt</div>
 
@@ -174,16 +90,21 @@
 
       <div id="resultado" class="result"></div>
     </section>
-
-    <footer>
-      <p>
-        Página estática. Nenhum dado é coletado ou transmitido.
-        Toda validação ocorre no navegador do usuário.
-      </p>
-    </footer>
-
-  </div>
-
+  </main>
+  <footer>Página estática. Nenhum dado é coletado ou transmitido. Toda validação ocorre no navegador do usuário.</footer>
+  <div class="overlay" hidden></div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var toggle = document.querySelector('.sidebar-toggle');
+      var overlay = document.querySelector('.overlay');
+      toggle && toggle.addEventListener('click', function () {
+        document.body.classList.toggle('sidebar-open');
+      });
+      overlay && overlay.addEventListener('click', function () {
+        document.body.classList.remove('sidebar-open');
+      });
+    });
+  </script>
 <script>
 async function abrirIPFS() {
   const cid = document.getElementById('cid').value.trim();
@@ -236,6 +157,5 @@ async function comparar() {
   }
 }
 </script>
-
 </body>
 </html>
