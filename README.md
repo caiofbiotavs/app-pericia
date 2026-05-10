@@ -32,6 +32,14 @@ python3 -m http.server 8000
 2. Acesse o app em `http://localhost:8000/`.
 3. Abra `http://localhost:8000/test/index.html` para executar os testes de regressão.
 
+## Credenciais de Admin
+
+Para acessar o painel administrativo (`/painel_admin/admin.html`):
+- **Usuário**: `caiotavares`
+- **Senha**: `admin`
+
+⚠️ **Nota**: Esta é uma demonstração com autenticação cliente-side. Não use como modelo de segurança em produção.
+
 ## Objetivo do app
 
 - Registrar evidências na cadeia local usando SHA-256.
